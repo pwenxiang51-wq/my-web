@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Velo.x | Deep Space Terminal</title>
+    <title>VELO.X | 核心终端</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background: #020205; color: #e0e0e0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; height: 100vh; overflow: hidden; display: flex; justify-content: center; align-items: center; }
+        body { background: #020205; color: #e0e0e0; font-family: 'Segoe UI', system-ui, sans-serif; height: 100vh; overflow: hidden; display: flex; justify-content: center; align-items: center; }
         
         /* 动态背景 */
         #stars { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background: radial-gradient(ellipse at bottom, #1B2735 0%, #090A0F 100%); }
 
-        /* 主卡片 - 毛玻璃效果 */
+        /* 毛玻璃卡片 */
         .glass-card {
             background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(15px);
@@ -27,15 +27,14 @@
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* 头像/Logo 呼吸灯 */
+        /* 呼吸灯头像 */
         .avatar { width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(45deg, #00f2fe, #4facfe); margin: 0 auto 20px; display: flex; align-items: center; justify-content: center; font-size: 30px; font-weight: bold; color: white; box-shadow: 0 0 20px rgba(79, 172, 254, 0.5); animation: pulse 2s infinite; }
-        
         @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(79, 172, 254, 0.7); } 70% { box-shadow: 0 0 0 15px rgba(79, 172, 254, 0); } 100% { box-shadow: 0 0 0 0 rgba(79, 172, 254, 0); } }
 
-        h1 { font-size: 24px; letter-spacing: 2px; margin-bottom: 10px; color: #fff; }
-        p.bio { font-size: 14px; color: #aaa; margin-bottom: 30px; font-style: italic; }
+        h1 { font-size: 24px; letter-spacing: 4px; margin-bottom: 10px; color: #fff; }
+        .typing-container { height: 20px; margin-bottom: 25px; font-family: monospace; color: #00f2fe; font-size: 14px; }
 
-        /* 极客链接区 */
+        /* 链接网格 */
         .links { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         .link-btn {
             background: rgba(255, 255, 255, 0.1);
@@ -51,7 +50,7 @@
             justify-content: center;
             gap: 8px;
         }
-        .link-btn:hover { background: rgba(255, 255, 255, 0.2); border-color: #4facfe; transform: translateY(-3px); }
+        .link-btn:hover { background: rgba(255, 255, 255, 0.2); border-color: #4facfe; transform: translateY(-3px); color: #00f2fe; }
 
         /* 底部状态 */
         .footer-info { margin-top: 30px; font-size: 11px; color: #666; display: flex; justify-content: space-between; }
@@ -64,23 +63,45 @@
     <div class="glass-card">
         <div class="avatar">V</div>
         <h1>VELO.X</h1>
-        <p class="bio">"在 222382.xyz 的深空里，探索技术的边界。"</p>
+        
+        <div class="typing-container">
+            <span id="typing-text"></span>
+        </div>
 
         <div class="links">
             <a href="https://github.com/pwenxiang51-wq" target="_blank" class="link-btn">🚀 代码仓库</a>
             <a href="mailto:velo.x@222382.xyz" class="link-btn">📧 秘密通信</a>
-            <a href="#" class="link-btn">🛠️ 个人工具</a>
-            <a href="#" class="link-btn">🛰️ 卫星监控</a>
+            <a href="https://nerdvm.racknerd.com/login.php" target="_blank" class="link-btn">🛠️ 个人工具</a>
+            <a href="https://stats.uptimerobot.com/scL7TOsCno" target="_blank" class="link-btn">🛰️ 卫星监控</a>
         </div>
 
         <div class="footer-info">
-            <span><span class="status-dot"></span>系统运行正常</span>
-            <span id="runtime">EST. 2025</span>
+            <span><span class="status-dot"></span>内核运行正常</span>
+            <span id="runtime">UPTIME: 0s</span>
         </div>
     </div>
 
     <script>
-        // 简单的星空背景生成
+        // 动态打字效果
+        const texts = ["> 正在接入 222382.xyz...", "> RackNerd 节点连接成功...", "> 欢迎回来，站长 Velo.x"];
+        let count = 0, index = 0, currentText = "", letter = "";
+        (function type() {
+            if (count === texts.length) count = 0;
+            currentText = texts[count];
+            letter = currentText.slice(0, ++index);
+            document.getElementById("typing-text").textContent = letter;
+            if (letter.length === currentText.length) { count++; index = 0; setTimeout(type, 2000); }
+            else { setTimeout(type, 100); }
+        }());
+
+        // 运行时间计算 (从你今天折腾网站开始)
+        setInterval(() => {
+            const start = new Date("2025-12-24T18:00:00");
+            const diff = Math.floor((new Date() - start) / 1000);
+            document.getElementById('runtime').innerText = "UPTIME: " + diff + "s";
+        }, 1000);
+
+        // 星空背景生成
         const starsContainer = document.getElementById('stars');
         for (let i = 0; i < 100; i++) {
             const star = document.createElement('div');
@@ -95,6 +116,6 @@
             star.style.boxShadow = '0 0 10px white';
             starsContainer.appendChild(star);
         }
-    </div>
+    </script>
 </body>
 </html>
