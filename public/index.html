@@ -4,14 +4,12 @@
     <meta charset="UTF-8">
     <title>velo.x 的秘密基地</title>
     <style>
-        body { background-color: #0a0a0a; color: #00ff41; font-family: 'Courier New', Courier, monospace; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; overflow: hidden; }
-        .terminal { background: rgba(0, 0, 0, 0.9); padding: 30px; border: 1px solid #00ff41; box-shadow: 0 0 20px rgba(0, 255, 65, 0.2); max-width: 600px; width: 90%; }
-        .line { margin-bottom: 10px; white-space: nowrap; overflow: hidden; border-right: 2px solid #00ff41; animation: typing 2s steps(40, end), blink .75s step-end infinite; }
+        body { background-color: #0a0a0a; color: #00ff41; font-family: monospace; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .terminal { background: rgba(0, 0, 0, 0.9); padding: 30px; border: 1px solid #00ff41; box-shadow: 0 0 20px rgba(0, 255, 65, 0.2); max-width: 600px; }
+        .line { margin-bottom: 10px; white-space: nowrap; overflow: hidden; border-right: 2px solid #00ff41; animation: typing 2s steps(40, end); }
         @keyframes typing { from { width: 0 } to { width: 100% } }
-        @keyframes blink { from, to { border-color: transparent } 50% { border-color: #00ff41 } }
-        .links { margin-top: 20px; }
-        a { color: #fff; text-decoration: none; border: 1px solid #fff; padding: 5px 15px; display: inline-block; margin-right: 10px; transition: 0.3s; }
-        a:hover { background: #fff; color: #000; box-shadow: 0 0 10px #fff; }
+        a { color: #fff; text-decoration: none; border: 1px solid #fff; padding: 5px 15px; display: inline-block; margin-top: 20px; }
+        a:hover { background: #fff; color: #000; }
     </style>
 </head>
 <body>
@@ -19,7 +17,7 @@
         <div class="line">> 系统启动成功...</div>
         <div class="line">> 正在加载 222382.xyz 核心模块...</div>
         <div class="line">> 欢迎来到 velo.x 的个人主页</div>
-        <p style="color: #888;">这里是我的互联网自留地，目前已实现域名邮箱与静态部署。</p>
+        <p style="color: #888;">这是我的互联网自留地，目前已实现域名邮箱和静态配置。</p>
         <div class="links">
             <a href="mailto:velo.x@222382.xyz">联系站长</a>
             <a href="https://github.com/pwenxiang51-wq" target="_blank">GitHub</a>
