@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <link rel="icon" href="https://github.githubassets.com/favicons/favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="https://github.githubassets.com/favicons/favicon.svg" type="image/svg+xml">
     <title>VELO.X | 核心控制中心</title>
     <style>
         :root { --neon: #00f2fe; --bg: #020205; --accent: #4caf50; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { background: var(--bg); color: #e0e0e0; font-family: 'Segoe UI', system-ui, sans-serif; min-height: 100vh; overflow: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; }
         
-        /* 动态背景 */
+        /* 背景：星星与流星 */
         #stars { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
         .star { position: absolute; background: white; border-radius: 50%; opacity: 0.5; animation: twinkle var(--t) infinite ease-in-out; }
         @keyframes twinkle { 0%, 100% { opacity: 0.3; transform: scale(1); } 50% { opacity: 1; transform: scale(1.2); } }
@@ -18,13 +18,9 @@
         @keyframes tail { 0% { width: 0; } 30% { width: 100px; } 100% { width: 0; } }
         @keyframes shooting { 0% { transform: translateX(0) translateY(0) rotate(-45deg); } 100% { transform: translateX(-1000px) translateY(1000px) rotate(-45deg); } }
 
-        /* --- 灵动 Logo 核心代码 --- */
+        /* 2. 灵动 Logo 样式 */
         .logo-box { position: relative; width: 100px; height: 100px; margin: 0 auto 30px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
-        
-        /* 外环旋转 */
         .logo-outer-ring { position: absolute; width: 100%; height: 100%; border: 1px solid rgba(0, 242, 254, 0.3); border-radius: 50%; border-top-color: var(--neon); animation: rotate-ring 4s linear infinite; }
-        
-        /* 中心呼吸发光圆圈 */
         .logo-main { 
             width: 80px; height: 80px; border-radius: 50%; 
             background: rgba(0, 242, 254, 0.1); border: 3px solid var(--neon);
@@ -35,17 +31,17 @@
             animation: breath 3s infinite ease-in-out;
             transition: 0.3s;
         }
-        .logo-box:hover .logo-main { transform: scale(1.1); box-shadow: 0 0 40px var(--neon); }
-
         @keyframes rotate-ring { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         @keyframes breath { 0%, 100% { opacity: 1; box-shadow: 0 0 20px rgba(0, 242, 254, 0.4); } 50% { opacity: 0.8; box-shadow: 0 0 40px rgba(0, 242, 254, 0.7); } }
 
-        /* 卡片与其他 */
+        /* 卡片与按钮 */
         .glass-card { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 20px; padding: 40px; width: 100%; max-width: 500px; text-align: center; box-shadow: 0 25px 50px rgba(0,0,0,0.5); z-index: 10; margin-bottom: 20px; }
         .identity { color: var(--neon); font-family: monospace; font-size: 14px; margin-bottom: 30px; }
         .links { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        .link-btn { background: rgba(255, 255, 255, 0.07); padding: 14px; border-radius: 12px; text-decoration: none; color: #fff; font-size: 13px; border: 1px solid transparent; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .link-btn { background: rgba(255, 255, 255, 0.07); padding: 14px; border-radius: 12px; text-decoration: none; color: #fff; font-size: 13px; border: 1px solid transparent; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; }
         .link-btn:hover { background: rgba(0, 242, 254, 0.15); border-color: var(--neon); color: var(--neon); transform: translateY(-3px); }
+
+        /* 3. 系统规格面板 (已校对 RackNerd 数据) */
         .spec-panel { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 15px; padding: 20px; width: 100%; max-width: 500px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-size: 12px; }
         .spec-item { color: #888; text-align: left; }
         .spec-item b { color: #fff; }
@@ -54,19 +50,16 @@
 </head>
 <body>
     <div id="stars"></div>
-    
     <div class="glass-card">
         <div class="logo-box">
             <div class="logo-outer-ring"></div>
             <div class="logo-main">V</div>
         </div>
-
         <h1 style="letter-spacing: 6px; font-size: 28px; margin-bottom: 8px;">VELO.X</h1>
         <div class="identity"><b style="color:var(--accent)">root</b>@222382.xyz:~$ <span style="color:#fff">System Online</span></div>
-
         <div class="links">
             <a href="https://github.com/pwenxiang51-wq" target="_blank" class="link-btn">🚀 代码仓库</a>
-            <div onclick="copyEmail()" style="cursor:pointer" class="link-btn">📧 秘密通信</div>
+            <div onclick="copyEmail()" class="link-btn">📧 秘密通信</div>
             <a href="https://nerdvm.racknerd.com/login.php" target="_blank" class="link-btn">🛠️ 个人工具</a>
             <a href="https://stats.uptimerobot.com/scL7TOsCno" target="_blank" class="link-btn">🛰️ 卫星监控</a>
         </div>
@@ -85,6 +78,7 @@
     </div>
 
     <script>
+        // 背景特效逻辑
         const starsWrap = document.getElementById('stars');
         for (let i = 0; i < 120; i++) {
             const s = document.createElement('div'); s.className = 'star';
@@ -101,6 +95,8 @@
             setTimeout(() => star.remove(), 3000);
         }
         setInterval(createShootingStar, 6000);
+
+        // 交互逻辑
         function copyEmail() {
             navigator.clipboard.writeText("velo.x@222382.xyz").then(() => alert(">>> 加密邮箱已复制：\nvelo.x@222382.xyz"));
         }
