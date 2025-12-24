@@ -3,77 +3,124 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VELO.X | 核心终端</title>
+    <title>VELO.X | 核心控制中心</title>
     <style>
+        :root { --neon: #00f2fe; --bg: #020205; --accent: #4caf50; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background: #020205; color: #e0e0e0; font-family: 'Segoe UI', system-ui, sans-serif; height: 100vh; overflow: hidden; display: flex; justify-content: center; align-items: center; }
-        #stars { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background: radial-gradient(ellipse at bottom, #1B2735 0%, #090A0F 100%); }
-        .glass-card { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 20px; padding: 40px; width: 90%; max-width: 500px; text-align: center; box-shadow: 0 25px 50px rgba(0,0,0,0.5); animation: fadeIn 1.5s ease-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        .avatar { width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(45deg, #00f2fe, #4facfe); margin: 0 auto 20px; display: flex; align-items: center; justify-content: center; font-size: 30px; font-weight: bold; color: white; box-shadow: 0 0 20px rgba(79, 172, 254, 0.5); animation: pulse 2s infinite; }
-        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(79, 172, 254, 0.7); } 70% { box-shadow: 0 0 0 15px rgba(79, 172, 254, 0); } 100% { box-shadow: 0 0 0 0 rgba(79, 172, 254, 0); } }
-        h1 { font-size: 24px; letter-spacing: 4px; margin-bottom: 10px; color: #fff; }
-        .typing-container { height: 20px; margin-bottom: 25px; font-family: monospace; color: #00f2fe; font-size: 14px; }
-        .links { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        .link-btn { background: rgba(255, 255, 255, 0.1); padding: 12px; border-radius: 10px; text-decoration: none; color: #fff; font-size: 13px; border: 1px solid transparent; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; }
-        .link-btn:hover { background: rgba(255, 255, 255, 0.2); border-color: #4facfe; transform: translateY(-3px); color: #00f2fe; }
-        .footer-info { margin-top: 30px; font-size: 11px; color: #666; display: flex; justify-content: space-between; }
-        .status-dot { width: 8px; height: 8px; background: #00ff41; border-radius: 50%; display: inline-block; margin-right: 5px; box-shadow: 0 0 10px #00ff41; }
+        body { background: var(--bg); color: #e0e0e0; font-family: 'Segoe UI', system-ui, sans-serif; min-height: 100vh; overflow-x: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; }
+        
+        /* 1. 动态闪烁星空 */
+        #stars { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
+        .star { position: absolute; background: white; border-radius: 50%; opacity: 0.5; animation: twinkle var(--t) infinite ease-in-out; }
+        @keyframes twinkle { 0%, 100% { opacity: 0.3; transform: scale(1); } 50% { opacity: 1; transform: scale(1.2); } }
+
+        /* 2. 流星特效 */
+        .shooting-star { position: absolute; height: 2px; background: linear-gradient(-45deg, #fff, rgba(0,0,0,0)); filter: drop-shadow(0 0 6px #fff); animation: tail 3s ease-in-out infinite, shooting 3s ease-in-out infinite; }
+        @keyframes tail { 0% { width: 0; } 30% { width: 100px; } 100% { width: 0; } }
+        @keyframes shooting { 0% { transform: translateX(0) translateY(0) rotate(-45deg); } 100% { transform: translateX(-1000px) translateY(1000px) rotate(-45deg); } }
+
+        /* 3. 主玻璃卡片 */
+        .glass-card { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 20px; padding: 35px; width: 100%; max-width: 500px; text-align: center; box-shadow: 0 25px 50px rgba(0,0,0,0.5); z-index: 10; margin-bottom: 20px; transition: 0.3s; }
+        .avatar { width: 75px; height: 75px; border-radius: 50%; background: linear-gradient(45deg, #00f2fe, #4facfe); margin: 0 auto 20px; display: flex; align-items: center; justify-content: center; font-size: 30px; font-weight: bold; color: white; box-shadow: 0 0 20px rgba(0,242,254,0.4); animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(0,242,254,0.7); } 70% { box-shadow: 0 0 0 15px rgba(0,242,254,0); } 100% { box-shadow: 0 0 0 0 rgba(0,242,254,0); } }
+
+        /* 4. 虚拟终端语录 */
+        .terminal { background: rgba(0,0,0,0.6); border-left: 3px solid var(--neon); padding: 12px; border-radius: 4px; font-family: 'Courier New', monospace; text-align: left; margin: 20px 0; color: #fff; font-size: 13px; line-height: 1.5; }
+        .prompt { color: var(--accent); font-weight: bold; }
+
+        /* 5. 链接网格 */
+        .links { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .link-btn { background: rgba(255, 255, 255, 0.07); padding: 12px; border-radius: 10px; text-decoration: none; color: #fff; font-size: 13px; border: 1px solid transparent; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; }
+        .link-btn:hover { background: rgba(0, 242, 254, 0.15); border-color: var(--neon); color: var(--neon); transform: translateY(-3px); }
+
+        /* 6. 系统规格面板 (Extra Panel) */
+        .spec-panel { background: rgba(255, 255, 255, 0.03); border: 1px dashed rgba(255,255,255,0.1); border-radius: 15px; padding: 20px; width: 100%; max-width: 500px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 12px; }
+        .spec-item { color: #aaa; text-align: left; }
+        .spec-item b { color: var(--neon); }
     </style>
 </head>
 <body>
     <div id="stars"></div>
+    
     <div class="glass-card">
         <div class="avatar">V</div>
-        <h1>VELO.X</h1>
-        <div class="typing-container"><span id="typing-text"></span></div>
+        <h1 style="letter-spacing: 4px;">VELO.X</h1>
+        
+        <div class="terminal">
+            <span class="prompt">guest@222382:~$</span> <span id="quote-text">正在初始化...</span>
+        </div>
+
         <div class="links">
             <a href="https://github.com/pwenxiang51-wq" target="_blank" class="link-btn">🚀 代码仓库</a>
             <div onclick="copyEmail()" class="link-btn">📧 秘密通信</div>
             <a href="https://nerdvm.racknerd.com/login.php" target="_blank" class="link-btn">🛠️ 个人工具</a>
             <a href="https://stats.uptimerobot.com/scL7TOsCno" target="_blank" class="link-btn">🛰️ 卫星监控</a>
         </div>
-        <div class="footer-info">
-            <span><span class="status-dot"></span>内核运行正常</span>
-            <span id="runtime">UPTIME: 0s</span>
-        </div>
+    </div>
+
+    <div class="spec-panel">
+        <div class="spec-item" style="grid-column: span 2; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 5px; margin-bottom: 5px; color: #fff;"><b>服务器规格 / SERVER SPEC</b></div>
+        <div class="spec-item">宿主: <b>RackNerd-LA</b></div>
+        <div class="spec-item">架构: <b>KVM / SSD</b></div>
+        <div class="spec-item">核心: <b>1 vCPU @ 1GB</b></div>
+        <div class="spec-item">流量: <b>1000GB / Mo</b></div>
+        <div class="spec-item">状态: <b style="color:var(--accent)">● 在线</b></div>
+        <div class="spec-item" id="uptime">UPTIME: <b>0s</b></div>
     </div>
 
     <script>
-        // 自动复制邮箱功能
-        function copyEmail() {
-            const email = "velo.x@222382.xyz";
-            navigator.clipboard.writeText(email).then(() => {
-                alert(">>> 加密邮箱已复制到剪贴板：\n" + email + "\n请手动粘贴发送。");
-            });
-        }
-
-        // 打字机效果
-        const texts = ["> 正在接入 222382.xyz...", "> RackNerd 节点连接成功...", "> 欢迎回来，站长 Velo.x"];
-        let count = 0, index = 0, currentText = "", letter = "";
-        (function type() {
-            if (count === texts.length) count = 0;
-            currentText = texts[count];
-            letter = currentText.slice(0, ++index);
-            document.getElementById("typing-text").textContent = letter;
-            if (letter.length === currentText.length) { count++; index = 0; setTimeout(type, 2000); }
-            else { setTimeout(type, 100); }
-        }());
-
-        // 运行时间计算
-        setInterval(() => {
-            const start = new Date("2025-12-24T18:00:00");
-            const diff = Math.floor((new Date() - start) / 1000);
-            document.getElementById('runtime').innerText = "UPTIME: " + diff + "s";
-        }, 1000);
-
         // 星空生成
-        const starsContainer = document.getElementById('stars');
-        for (let i = 0; i < 80; i++) {
-            const star = document.createElement('div');
-            star.style.cssText = `position:absolute;left:${Math.random()*100}%;top:${Math.random()*100}%;width:2px;height:2px;background:#fff;border-radius:50%;opacity:${Math.random()};box-shadow:0 0 5px #fff;`;
-            starsContainer.appendChild(star);
+        const starsWrap = document.getElementById('stars');
+        for (let i = 0; i < 120; i++) {
+            const s = document.createElement('div');
+            s.className = 'star';
+            s.style.left = Math.random() * 100 + '%';
+            s.style.top = Math.random() * 100 + '%';
+            const size = (Math.random() * 2 + 1) + 'px';
+            s.style.width = size; s.style.height = size;
+            s.style.setProperty('--t', (Math.random() * 3 + 2) + 's');
+            starsWrap.appendChild(s);
         }
+
+        // 流星生成
+        function createShootingStar() {
+            const star = document.createElement('div');
+            star.className = 'shooting-star';
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 50 + '%';
+            starsWrap.appendChild(star);
+            setTimeout(() => star.remove(), 3000);
+        }
+        setInterval(createShootingStar, 5000);
+
+        // 极客语录循环
+        const quotes = [
+            "\"代码是写给人看的，附带在机器上运行。\"",
+            "\"Hello World 是通往大师之路的第一步。\"",
+            "\"最好的调试工具是仔细的思考。\"",
+            "\"Stay hungry, Stay foolish.\"",
+            "\"要么卓越，要么平庸。\"",
+            "正在监视 222382.xyz 全球节点...",
+            "连接已通过 Cloudflare 加密隧道。"
+        ];
+        let qIdx = 0;
+        function rotateQuote() {
+            document.getElementById('quote-text').innerText = quotes[qIdx];
+            qIdx = (qIdx + 1) % quotes.length;
+        }
+        rotateQuote();
+        setInterval(rotateQuote, 4500);
+
+        // 复制邮箱
+        function copyEmail() {
+            navigator.clipboard.writeText("velo.x@222382.xyz").then(() => alert(">>> 加密邮箱已复制：\nvelo.x@222382.xyz"));
+        }
+
+        // 运行时间计数
+        setInterval(() => {
+            const diff = Math.floor((new Date() - new Date("2025-12-24T18:00:00")) / 1000);
+            document.getElementById('uptime').innerHTML = "UPTIME: <b>" + diff + "s</b>";
+        }, 1000);
     </script>
 </body>
 </html>
